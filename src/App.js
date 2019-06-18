@@ -36,8 +36,9 @@ class App extends Component {
     return false;
   };
 
-  handleSelect = () => {
+  handleSelect = event => {
     this.setState({ chosen: this.state.chosen ? this.state.handleLoss : this.state.handleWin })
+    console.log();
   }
 
   render() {
