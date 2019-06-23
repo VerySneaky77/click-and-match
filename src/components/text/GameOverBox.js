@@ -1,8 +1,8 @@
 import React from 'react';
 
-function GameOverBox() {
+function GameOverBox(props) {
     return (
-        <p>Game Over | Click a card to restart </p>
+        <p className={props.className}>Game Over | Click a card to restart </p>
     );
 }
 

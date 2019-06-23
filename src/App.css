@@ -44,10 +44,10 @@
   flex-wrap: wrap;
 }
 
-.Game-Over-hide {
+.game-over-text-hide {
   visibility: hidden;
 }
 
-.Game-Over-show {
+.game-over-text-show {
   visibility: default;
 }

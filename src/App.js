@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-// import GameOverBox from "./components/text/GameOverBox";
+// import GameBox from "./components/GameBox";
 import Card from "./components/card/Card";
 import GameOverBox from "./components/text/GameOverBox";
 import cards from "./cards.json";
@@ -11,42 +11,45 @@ class App extends Component {
     cards,
     scoreCurr: 0,
     scoreTop: 0,
-    gameOver: false
+    gameOver: false,
+    cssHide: "game-over-text-hide"
+  };
+
+  handleGameProgress = selection => {
+    // Check state of clicked card
+    if (selection && !(this.state.gameOver)) {
+      // No score change, game is over
+      this.setState({ gameOver: this.state.gameOver ? false : true });
+      this.setState({ cssHide: "game-over-text-show" });
+    }
+    else if (!selection && !this.state.gameOver) {
+      // Compare to top score
+      if (this.state.scoreTop < this.state.scoreCurr + 1) { this.setState({ scoreTop: (this.state.scoreCurr + 1) }) };
+      // Increase score by 1
+      this.setState({ scoreCurr: this.state.scoreCurr + 1 });
+      // Shuffle the game space
+      this.handleShuffle();
+    }
+    else {
+      // Game is over or something bugged out, reset
+      this.setState({ cssHide: "game-over-text-hide" });
+      this.setState({ scoreCurr: 1 });
+      this.handleShuffle();
+      this.setState({gameOver: false});
+    }
   };
 
   // Randomize location of cards
   handleShuffle = () => {
-    var temp = cards;
+    const cards = this.state.cards;
 
-    for (let i = temp.length - 1; i > 0; i--) {
+    for (let i = cards.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-      [temp[i], temp[j]] = [temp[j], temp[i]]; // swap elements
+      [cards[i], cards[j]] = [cards[j], cards[i]]; // swap elements
     }
 
-    this.setState({ cards: temp })
+    this.setState({ cards });
     console.log(cards);
-  }
-
-  handleGameProgress = selection => {
-      // Check state of clicked card
-      if (selection) {
-          // No score change, game is over
-          this.toggleGameOver();
-          console.log("Game Over");
-      }
-      else {
-          // Compare to top score
-          this.setState({ scoreTop: this.state.scoreTop < this.state.scoreCurr + 1 ? this.state.scoreCurr + 1: this.state.scoreTop});
-          // Increase score by 1
-          this.setState({ scoreCurr: this.state.scoreCurr + 1 });
-      }
-      // Shuffle the game space
-      this.handleShuffle();
-  };
-
-  toggleGameOver = () => {
-    this.setState({ gameOver: this.state.gameOver ? false : true });
-    console.log("Game Over: " + this.state.gameOver.toString());
   }
 
   render() {
@@ -57,31 +60,29 @@ class App extends Component {
           <p>Score: <span>{this.state.scoreCurr}</span></p>
           <p>Top Score: <span>{this.state.scoreTop}</span></p>
           {/* Hide or show the game over text */}
-          <GameOverBox className={this.state.gameOver ? "Game-Over-show" : "Game-Over-hide"} />
+          <GameOverBox className={this.state.cssHide} />
         </header>
         <div className="wrapper">
-            <div className="over-wrap">
-                {this.props.gameOver ?
-                    // game is over
-                    this.state.cards.map(card => (
-                        <Card
-                            key={this.state.cards.indexOf(card)}
-                            datasource={card.datasource}
-                            name={card.name}
-                            selected={false}
-                            handleGameProgress={this.handleGameProgress}
-                        />
-                    ))
-                    // game not over
-                    : this.state.cards.map(card => (
-                        <Card
-                            key={this.state.cards.indexOf(card)}
-                            datasource={card.datasource}
-                            name={card.name}
-                            handleGameProgress={this.handleGameProgress}
-                        />
-                    ))}
-            </div>
+          <div className="over-wrap">
+            {this.state.cards.map(card => (
+              this.props.gameOver ?
+                // game is over
+                <Card
+                  key={card.name}
+                  datasource={card.datasource}
+                  name={card.name}
+                  selected={false}
+                  handleGameProgress={this.handleGameProgress}
+                />
+                // game not over
+                : <Card
+                  key={card.name}
+                  datasource={card.datasource}
+                  name={card.name}
+                  handleGameProgress={this.handleGameProgress}
+                />
+            ))}
+          </div>
         </div>
       </div>
     );
