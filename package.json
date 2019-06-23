@@ -2,7 +2,7 @@
   "name": "click-and-match",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://verysneaky77.github.io/click-and-match/",
+  "homepage": "https://verysneaky77.github.io",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "react": "^16.8.6",
