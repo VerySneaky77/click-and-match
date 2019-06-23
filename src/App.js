@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import CardBody from "./components/card/CardBody";
+// import GameOverBox from "./components/text/GameOverBox";
+import Card from "./components/card/Card";
+import GameOverBox from "./components/text/GameOverBox";
 import cards from "./cards.json";
 
 class App extends Component {
@@ -13,32 +15,38 @@ class App extends Component {
   };
 
   // Randomize location of cards
-  // handleShuffle = () => {
+  handleShuffle = () => {
+    var temp = cards;
 
-  // }
+    for (let i = temp.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+      [temp[i], temp[j]] = [temp[j], temp[i]]; // swap elements
+    }
 
-  // Increase score count by 1
-  handleWin = () => {
-    // Manage score, compare to top score
-    this.setState({ scoreCurr: this.state.scoreCurr + 1 });
+    this.setState({ cards: temp })
+    console.log(cards);
+  }
 
-    if (this.state.scoreCurr > this.state.scoreTop) this.setState({ scoreCurr: this.state.scoreCurr });
-
-    // Shuffle the game space
-    // this.handleShuffle();
-    return true;
+  handleGameProgress = selection => {
+      // Check state of clicked card
+      if (selection) {
+          // No score change, game is over
+          this.toggleGameOver();
+          console.log("Game Over");
+      }
+      else {
+          // Compare to top score
+          this.setState({ scoreTop: this.state.scoreTop < this.state.scoreCurr + 1 ? this.state.scoreCurr + 1: this.state.scoreTop});
+          // Increase score by 1
+          this.setState({ scoreCurr: this.state.scoreCurr + 1 });
+      }
+      // Shuffle the game space
+      this.handleShuffle();
   };
 
-  // Increase score count by 1
-  handleLoss = () => {
-    this.setState({ gameOver: true });
-    console.log("Game Over");
-    return false;
-  };
-
-  handleSelect = event => {
-    this.setState({ chosen: this.state.chosen ? this.state.handleLoss : this.state.handleWin })
-    console.log();
+  toggleGameOver = () => {
+    this.setState({ gameOver: this.state.gameOver ? false : true });
+    console.log("Game Over: " + this.state.gameOver.toString());
   }
 
   render() {
@@ -46,17 +54,34 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1>Click Memory Game</h1>
+          <p>Score: <span>{this.state.scoreCurr}</span></p>
+          <p>Top Score: <span>{this.state.scoreTop}</span></p>
+          {/* Hide or show the game over text */}
+          <GameOverBox className={this.state.gameOver ? "Game-Over-show" : "Game-Over-hide"} />
         </header>
         <div className="wrapper">
-          <div className="over-wrap">
-            {this.state.cards.map(card => (
-              <CardBody
-                key={this.state.cards.indexOf(card)}
-                datasource={card.datasource}
-                name={card.name}
-              />
-            ))}
-          </div>
+            <div className="over-wrap">
+                {this.props.gameOver ?
+                    // game is over
+                    this.state.cards.map(card => (
+                        <Card
+                            key={this.state.cards.indexOf(card)}
+                            datasource={card.datasource}
+                            name={card.name}
+                            selected={false}
+                            handleGameProgress={this.handleGameProgress}
+                        />
+                    ))
+                    // game not over
+                    : this.state.cards.map(card => (
+                        <Card
+                            key={this.state.cards.indexOf(card)}
+                            datasource={card.datasource}
+                            name={card.name}
+                            handleGameProgress={this.handleGameProgress}
+                        />
+                    ))}
+            </div>
         </div>
       </div>
     );

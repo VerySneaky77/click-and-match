@@ -1,6 +1,86 @@
 [
     {
         "datasource": "/images/ob0.jpg",
-        "name": "Fool"
+        "name": "The Fool"
+    },
+    {
+        "datasource": "/images/ob2.jpg",
+        "name": "The High Priestess"
+    },
+    {
+        "datasource": "/images/ob3.jpg",
+        "name": "The Empress"
+    },
+    {
+        "datasource": "/images/ob4.jpg",
+        "name": "The Emperor"
+    },
+    {
+        "datasource": "/images/ob5.jpg",
+        "name": "The Hierophant"
+    },
+    {
+        "datasource": "/images/ob6.jpg",
+        "name": "The Lovers"
+    },
+    {
+        "datasource": "/images/ob7.jpg",
+        "name": "Chariot"
+    },
+    {
+        "datasource": "/images/ob8.jpg",
+        "name": "Justice"
+    },
+    {
+        "datasource": "/images/ob9.jpg",
+        "name": "The Hermit"
+    },
+    {
+        "datasource": "/images/ob10.jpg",
+        "name": "Wheel of Fortune"
+    },
+    {
+        "datasource": "/images/ob11.jpg",
+        "name": "Strength"
+    },
+    {
+        "datasource": "/images/ob12.jpg",
+        "name": "The Hanged Man"
+    },
+    {
+        "datasource": "/images/ob13.jpg",
+        "name": "Death"
+    },
+    {
+        "datasource": "/images/ob14.jpg",
+        "name": "Temperance"
+    },
+    {
+        "datasource": "/images/ob15.jpg",
+        "name": "The Devil"
+    },
+    {
+        "datasource": "/images/ob16.jpg",
+        "name": "The Tower"
+    },
+    {
+        "datasource": "/images/ob17.jpg",
+        "name": "The Star"
+    },
+    {
+        "datasource": "/images/ob18.jpg",
+        "name": "The Moon"
+    },
+    {
+        "datasource": "/images/ob19.jpg",
+        "name": "The Sun"
+    },
+    {
+        "datasource": "/images/ob20.jpg",
+        "name": "Judgement"
+    },
+    {
+        "datasource": "/images/ob21.jpg",
+        "name": "The World"
     }
 ]
